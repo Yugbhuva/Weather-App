@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <!-- Bootstrap CSS (Replit theme) -->
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <!-- Font Awesome for weather icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- jQuery UI CSS for autocomplete -->
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container py-4">
+        <header class="mb-4 text-center">
+            <h1 class="display-4">Roker's Radar</h1>
+            <p class="lead">From Tokyo to Toronto — know what the skies say.</p>
+        </header>
+        
+        <section class="search-section mb-5">
+            <form action="{{ url_for('weather') }}" method="get" class="mb-3">
+                <div class="input-group">
+                    <input type="text" class="form-control" name="location" id="location" 
+                           placeholder="Enter city or coordinates (e.g., New York or 42.3478,-71.0466)" 
+                           value="{{ location if location else '' }}" required>
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search"></i> Get Weather
+                    </button>
+                </div>
+                {% if error %}
+                <div class="alert alert-danger mt-2">{{ error }}</div>
+                {% endif %}
+            </form>
+        </section>
+        
+        {% if weather %}
+        <section class="weather-section">
+            <div class="card mb-4 shadow">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <!-- Location info and current temp -->
+                        <div class="col-md-6">
+                            <h2 class="location-info mb-3">
+                                <i class="fas fa-map-marker-alt me-2"></i>
+                                {{ weather.city }}{% if weather.country %}, {{ weather.country }}{% endif %}
+                            </h2>
+                            <div class="current-temp d-flex align-items-center">
+                                <i class="{{ weather.icon }} weather-icon me-3"></i>
+                                <div>
+                                    <span class="display-1">{{ weather.temperature }}°{{ weather.temperature_unit }}</span>
+                                    <div class="condition">{{ weather.condition }}</div>
+                                </div>
+                            </div>
+                            <div class="high-low mt-2">
+                                <span class="high"><i class="fas fa-arrow-up me-1"></i> High: {{ weather.high }}°{{ weather.temperature_unit }}</span>
+                                <span class="low ms-3"><i class="fas fa-arrow-down me-1"></i> Low: {{ weather.low }}°{{ weather.temperature_unit }}</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Weather details -->
+                        <div class="col-md-6">
+                            <div class="weather-details">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span><i class="fas fa-wind me-2"></i> Wind Speed</span>
+                                        <span class="badge bg-info">{{ weather.wind_speed }} {{ weather.wind_speed_unit }}</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span><i class="fas fa-tint me-2"></i> Humidity</span>
+                                        <span class="badge bg-info">{{ weather.humidity }}%</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span><i class="fas fa-eye me-2"></i> Visibility</span>
+                                        <span class="badge bg-info">{{ weather.visibility }} {{ weather.visibility_unit }}</span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span><i class="fas fa-sun me-2"></i> UV Index</span>
+                                        <span class="badge {{ 'bg-success' if weather.uv_index <= 2 else 'bg-warning' if weather.uv_index <= 5 else 'bg-danger' }}">
+                                            {{ weather.uv_index }}
+                                        </span>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span><i class="fas fa-lungs me-2"></i> Air Quality</span>
+                                        <span class="badge {{ 'bg-success' if weather.aqi_value <= 50 else 'bg-info' if weather.aqi_value <= 100 else 'bg-warning' if weather.aqi_value <= 150 else 'bg-danger' }}">
+                                            {{ weather.aqi }}
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        {% else %}
+        <section class="welcome-section mb-4 text-center" id="welcome-section">
+            <div class="card shadow">
+                <div class="card-body p-5">
+                    <i class="fas fa-cloud-sun display-1 mb-4 text-info"></i>
+                    <h2>Welcome to the RokerRadar</h2>
+                    <p class="lead">Enter a place to see the mood of the sky.</p>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+        
+        <footer class="mt-5 text-center text-muted">
+            <p><small>Powered by Tomorrow.io Weather API</small></p>
+        </footer>
+    </div>
+    
+    <!-- jQuery and jQuery UI -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+/* Custom styles for the Weather App */
+
+@font-face {
+    font-family: 'Work Sans Extra Light';
+    src: url('./fonts/Work Sans Extra Light.ttf') format('truetype');
+  }
+  
+body, head {
+    font-family: 'Work Sans Extra Light', sans-serif;
+    font-weight: bold;
+}
+
+body {
+    min-height: 100vh;
+}
+
+.weather-icon {
+    font-size: 3rem;
+}
+
+.condition {
+    font-size: 1.2rem;
+    color: var(--bs-info);
+}
+
+/* Autocomplete styling */
+.ui-autocomplete {
+    background-color: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.25rem;
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1050;
+}
+
+.ui-autocomplete .ui-menu-item {
+    padding: 5px;
+}
+
+.ui-autocomplete .ui-state-active,
+.ui-autocomplete .ui-menu-item:hover {
+    background-color: var(--bs-primary);
+    border: none;
+    border-radius: 0.25rem;
+    margin: 0;
+}
+
+.autocomplete-item {
+    padding: 8px 12px;
+}
+
+.ui-helper-hidden-accessible {
+    display: none;
+}
+
+/* Welcome section styling */
+.welcome-section .card {
+    transition: all 0.3s ease;
+}
+
+.welcome-section .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Weather details styling */
+.weather-details .list-group-item {
+    background-color: transparent;
+    border-color: var(--bs-border-color);
+}
+
+.weather-details .badge {
+    font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .current-temp {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    
+    .weather-icon {
+        margin-bottom: 1rem;
+    }
+    
+    .high-low {
+        text-align: center;
+        margin-top: 1rem;
+    }
+}
